@@ -2,6 +2,7 @@ package aop
 
 import (
 	"fmt"
+	"runtime/debug"
 	"sort"
 )
 
@@ -73,7 +74,7 @@ func (this *aop) RunPoint(p Point) error {
 		name := item.opt.getName()
 		fmt.Printf("[AOP] ################ %v 执行开始 ##############\n", name)
 		if err := item.f.Run(); err != nil {
-			fmt.Printf("[AOP] ################ %v 执行失败 ##############%v\n", name, err)
+			fmt.Printf("[AOP] ################ %v 执行失败 ############## err:%v\n", name, err)
 			return err
 		}
 		fmt.Printf("[AOP] ################ %v 执行成功 ##############\n", name)
@@ -92,6 +93,7 @@ func (this *aop) Run() error {
 			fmt.Printf("[AOP] ################ %v 执行开始 ##############\n", name)
 			if err := item.f.Run(); err != nil {
 				fmt.Printf("[AOP] ################ %v 执行失败 ##############%v\n", name, err)
+				debug.PrintStack()
 				return err
 			}
 			fmt.Printf("[AOP] ################ %v 执行成功 ##############\n", name)
