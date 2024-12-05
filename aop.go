@@ -22,27 +22,27 @@ type item struct {
 }
 
 type aop struct {
-	_points   []point
-	funcs_mgr map[point][]*item
+	_points   []Point
+	funcs_mgr map[Point][]*item
 }
 
 func NewAop() *aop {
 	return &aop{
-		funcs_mgr: make(map[point][]*item),
+		funcs_mgr: make(map[Point][]*item),
 	}
 }
 
-func (this *aop) AddFunc(p point, f func() error, opts ...*Option) {
+func (this *aop) AddFunc(p Point, f func() error, opts ...*Option) {
 	opt := Options().SetName("").SetPriority(0).Merge(opts...)
 	this.add(p, run_func(f), opt)
 }
 
-func (this *aop) Add(p point, f IRunAble, opts ...*Option) {
+func (this *aop) Add(p Point, f IRunAble, opts ...*Option) {
 	opt := Options().SetName("").SetPriority(0).Merge(opts...)
 	this.add(p, f, opt)
 }
 
-func (this *aop) add(p point, f IRunAble, opt *Option) {
+func (this *aop) add(p Point, f IRunAble, opt *Option) {
 	this.funcs_mgr[p] = append(this.funcs_mgr[p], &item{f: f, opt: opt})
 	sort.SliceStable(this.funcs_mgr[p], func(i, j int) bool {
 		return this.funcs_mgr[p][i].opt.getPriority() > this.funcs_mgr[p][j].opt.getPriority()
@@ -55,7 +55,7 @@ func (this *aop) add(p point, f IRunAble, opt *Option) {
 	}
 }
 
-func contains(points []point, p point) bool {
+func contains(points []Point, p Point) bool {
 	for _, point := range points {
 		if point == p {
 			return true
@@ -64,7 +64,7 @@ func contains(points []point, p point) bool {
 	return false
 }
 
-func (this *aop) RunPoint(p point) error {
+func (this *aop) RunPoint(p Point) error {
 	for _, item := range this.funcs_mgr[p] {
 		if item.is_run {
 			continue
