@@ -15,8 +15,6 @@ func (this run_func) Run() error {
 	return this()
 }
 
-type point uint8
-
 type item struct {
 	f      IRunAble
 	is_run bool
