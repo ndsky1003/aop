@@ -1,4 +1,6 @@
 #### USAGE
+1. Point 越小越优先执行,遵行iota自增的特性来定义Point
+2. Priority 越大越优先执行,代表优先级
 ```golang
 func main() {
 	aop.RunPoint(17)

@@ -1,3 +1,3 @@
 package aop
 
-type Point uint8
+type Point uint16

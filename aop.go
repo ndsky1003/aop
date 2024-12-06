@@ -51,7 +51,7 @@ func (this *aop) add(p Point, f IRunAble, opt *Option) {
 	if !contains(this._points, p) {
 		this._points = append(this._points, p)
 		sort.SliceStable(this._points, func(i, j int) bool {
-			return this._points[i] > this._points[j]
+			return this._points[i] < this._points[j]
 		})
 	}
 }
