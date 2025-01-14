@@ -1,6 +1,6 @@
 package aop
 
-var d = NewAop()
+var d = New(FlagInit)
 
 func AddFunc(p Point, f func() error, opts ...*Option) {
 	d.AddFunc(p, f, opts...)

@@ -6,6 +6,13 @@ import (
 	"sort"
 )
 
+type Flag = string
+
+const (
+	FlagDefer string = "deffer"
+	FlagInit  string = "init"
+)
+
 type IRunAble interface {
 	Run() error
 }
@@ -23,12 +30,14 @@ type item struct {
 }
 
 type aop struct {
+	flag      Flag
 	_points   []Point
 	funcs_mgr map[Point][]*item
 }
 
-func NewAop() *aop {
+func New(flag Flag) *aop {
 	return &aop{
+		flag:      flag,
 		funcs_mgr: make(map[Point][]*item),
 	}
 }
@@ -72,12 +81,12 @@ func (this *aop) RunPoint(p Point) error {
 		}
 		item.is_run = true
 		name := item.opt.getName()
-		fmt.Printf("[AOP] ################ %v 执行开始 ##############\n", name)
+		fmt.Printf("[AOP %s] ################ %v 执行开始 ##############\n", this.flag, name)
 		if err := item.f.Run(); err != nil {
-			fmt.Printf("[AOP] ################ %v 执行失败 ############## err:%v\n", name, err)
+			fmt.Printf("[AOP %s] ################ %v 执行失败 ############## err:%v\n", this.flag, name, err)
 			return err
 		}
-		fmt.Printf("[AOP] ################ %v 执行成功 ##############\n", name)
+		fmt.Printf("[AOP %s] ################ %v 执行成功 ##############\n", this.flag, name)
 	}
 	return nil
 }
@@ -90,13 +99,13 @@ func (this *aop) Run() error {
 			}
 			item.is_run = true
 			name := item.opt.getName()
-			fmt.Printf("[AOP] ################ %v 执行开始 ##############\n", name)
+			fmt.Printf("[AOP %s] ################ %v 执行开始 ##############\n", this.flag, name)
 			if err := item.f.Run(); err != nil {
-				fmt.Printf("[AOP] ################ %v 执行失败 ##############%v\n", name, err)
+				fmt.Printf("[AOP %s] ################ %v 执行失败 ##############%v\n", this.flag, name, err)
 				debug.PrintStack()
 				return err
 			}
-			fmt.Printf("[AOP] ################ %v 执行成功 ##############\n", name)
+			fmt.Printf("[AOP %s] ################ %v 执行成功 ##############\n", this.flag, name)
 		}
 	}
 	return nil
