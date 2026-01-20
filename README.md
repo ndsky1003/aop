@@ -1,3 +1,5 @@
+> 主要用于管理golang的init管理执行顺序，不会有高并发与线程安全的问题
+
 #### USAGE
 1. Point 越小越优先执行,遵行iota自增的特性来定义Point
 2. Priority 越大越优先执行,代表优先级
